@@ -1,0 +1,11 @@
+//guilherme.alves3340@gmail.com
+CHIP And3in{
+    IN a, b, c, d;
+    Out out;
+
+    PARTS:
+    And (a=a, b=b, out=aux);
+    And (a=c, b=d, out=aux2);
+
+    And(a=aux, b=aux2, out=out);
+}

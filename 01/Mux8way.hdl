@@ -1,0 +1,24 @@
+//guilherme.alves3340@gmail.com
+CHIP Mux8way{
+    IN a, b, c, d,
+    d, e, f, g, sel[3];
+    OUT out;
+
+    PARTS:
+
+    Not(in=sel[0], out=notSel0);
+    Not(in=sel[1], out=notSel1);
+    Not(in=sel[2], out=notSel2);
+
+    And4in(a=a, b=notSel0, c=notSel1, d=notSel2, out=a1);
+    And4in(a=b, b=notSel0, c=notSel1, d=sel[2], out=a2);
+    And4in(a=c ,b=notSel0 ,c=sel[1] ,d=notSel2, out=a3);
+    And4in(a=d ,b=notSel0 ,c=sel[1] ,d=sel[2] ,out=a4);
+    And4in(a=e ,b=sel[0] ,c=notSel1 ,d=notSel2 ,out=a5);
+    And4in(a=f ,b=sel[0] ,c=notSel1 ,d=sel[2] ,out=a6);
+    And4in(a=g ,b=sel[0] ,c=sel[1] ,d=notSel2 ,out=a7);
+    And4in(a=h ,b=sel[0] ,c=sel[1] ,d=sel[2] ,out=a8);
+
+    Or8in(a1, a2, a3, a4, a5, a6, a7, a8, out=out);
+
+}

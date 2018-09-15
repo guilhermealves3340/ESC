@@ -1,0 +1,20 @@
+//guilherme.alves3340@gmail.com
+CHIP Or8in{
+    IN a, b, c, d, 
+       e, f, g, h;
+
+    OUT out;
+
+    PARTS:
+    
+    Or(a=a, b=b, out=x1);
+    Or(a=d, b=c, out=x2);
+    Or(a=e, b=f, out=x3);
+    Or(a=g, b=h, out=x4);
+
+    Or(a=x1, b=x2, out=y1);
+    Or(a=x4, b=x3, out=y2);
+
+    Or(a=y1, b=y2, out=out);
+
+}
