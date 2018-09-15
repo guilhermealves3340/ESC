@@ -13,7 +13,6 @@
  * if the ALU output == 0, zr is set to 1; otherwise zr is set to 0;
  * if the ALU output < 0, ng is set to 1; otherwise ng is set to 0.
  */
-
 // Implementation: the ALU logic manipulates the x and y inputs
 // and operates on the resulting values, as follows:
 // if (zx == 1) set x = 0        // 16-bit constant
@@ -26,6 +25,8 @@
 // if (out == 0) set zr = 1
 // if (out < 0) set ng = 1
 
+
+//guilherme.alves3340@gmail.com
 CHIP ALU {
     IN  
         x[16], y[16],  // 16-bit inputs        
@@ -42,5 +43,21 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-   // Put you code here:
+    Not16(in=x, out=notX);
+    Not16(in=y, out=notY);
+
+    Mux4Way16(a=x, b=notX, c=false, d=true, sel[0]=nx, sel[1]=zx, out=nzx);
+    Mux4Way16(a=y, b=notY, c=false, d=true, sel[0]=ny, sel[1]=zy, out=nzy);
+    
+    Not16(in=SaidaF, out=notSaidaF);
+    Mux16(a=SaidaF, b=notSaidaF, sel=no, out=out, out[0..7]=Saida1, out[8..15]=Saida2, out[15]=ng);
+
+    Add16(a=nzx, b=nzy, out=xSumy);
+    And16(a=nzx, b=nzy, out=xAndy);
+    Mux16(a=xAndy, b=xSumy, sel=f, out=SaidaF);
+    
+    Or8Way(in=Saida1, out=zr0);
+    Or8Way(in=Saida2, out=zr1);
+    Or(a=zr0, b=zr1, out=zr2);
+    Not(in=zr2, out=zr);
 }
